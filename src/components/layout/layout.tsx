@@ -1,18 +1,18 @@
 import Header from "../header";
+import {type ReactNode} from 'react';
 
-export const Layout: React.FC = () => {
+type LayoutProps = {
+    children: ReactNode,
+}
+
+export const Layout: React.FC<LayoutProps> = (props) => {
+    const {children} = props;
     return (
         <div data-testid='layout-container' className="flex flex-column items-center">
             <Header/>
-            <h1>Vite + React</h1>
-            <div className="card">
-                <p>
-                Edit <code>src/App.tsx</code> and save to test HMR
-                </p>
+            <div>
+                {children}
             </div>
-            <p className="read-the-docs">
-                Click on the Vite and React logos to learn more
-            </p>
         </div>
     );
 }
