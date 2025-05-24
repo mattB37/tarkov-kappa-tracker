@@ -5,15 +5,11 @@ export type HeaderLink = {
 
 export const HEADERLINKS:Array<HeaderLink> = [
     {
-        name: "About",
-        href: ""
-    },
-    {
         name: "Quest Tracker",
-        href: ""
+        href: "quest-tracker"
     },
     {
         name: "Hideout Tracker",
-        href: ""
-    }
+        href: "hideout-tracker"
+    },
 ];
