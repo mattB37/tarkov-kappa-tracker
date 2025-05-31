@@ -7,7 +7,9 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "setup-data": "node ./src/scripts/refresh_raw_data.ts",
+    "filter-data": "node ./src/scripts/filter_data.ts"
   },
   "dependencies": {
     "classnames": "^2.5.1",

@@ -1,96 +1,27 @@
-import data from './task-data.json' with {type: "json"};
+import rawData from '../data/raw-task-data.json' with {type: "json"};
+import type { TaskData } from './types';
+import { getUniqueTraderNames, createTaskTrackerData, createItemTrackerData, createHideoutItemTrackerData } from './utils.ts';
+import { writeFile } from 'node:fs';
+import { Buffer } from 'node:buffer';
 
-interface Item {
-    name: string;
-}
+const writeFilteredJSONDataToFile = (fileName: string, stringifiedJsonData: string) => {
+    const data = new Uint8Array(Buffer.from(stringifiedJsonData));
+    const file_path = `src/data/${fileName}`
+    writeFile(file_path, data, (err) => {
+        if (err) throw err;
+        console.log('The file has been saved!');
+    });
+};
 
-interface Objective {
-    id?: string;
-    foundInRaid?: boolean;
-    count?: number;
-    description?: string;
-    items?: Item[];
-}
-
-interface Trader {
-    name: string;
-}
-
-interface Task {
-    id: string;
-    name: string;
-    kappaRequired: boolean;
-    wikiLink: string;
-    trader: Trader;
-    objectives: Objective[];
-}
-
-interface TaskData {
-    tasks: Task[];
-}
-
-const taskData = JSON.parse(JSON.stringify(data)) as TaskData;
-
+const taskData = JSON.parse(JSON.stringify(rawData)) as TaskData;
 const kappaTasks = taskData.tasks.filter(task => task.kappaRequired);
+const traderNames = getUniqueTraderNames(kappaTasks);
 
-const getUniqueTraderNames = () => {
-    const uniqueTraders: Set<string> = new Set();
-    kappaTasks.forEach(task => {
-        uniqueTraders.add(task.trader.name);
-    });
-    return uniqueTraders;
-}
-const traderNames = getUniqueTraderNames();
+const filteredTraderTaskData = createTaskTrackerData(traderNames, kappaTasks);
+writeFilteredJSONDataToFile('filtered_trader_task_data.json', filteredTraderTaskData);
 
-// filter out a trader - task name object which has all the tasks per trader required for kappa
-interface SimpleTask {
-    id: string;
-    name: string;
-    wikiLink: string;
-}
-const createTaskTrackerData = () => {
-    const result: Map<string, SimpleTask[]> = new Map();
-    traderNames.forEach(traderName => {
-        result.set(
-            traderName, []
-        )
-    });
-    kappaTasks.forEach(task => {
-        result.get(task.trader.name)?.push({
-            id: task.id,
-            name: task.name,
-            wikiLink: task.wikiLink
-        })
-    });
-    return result;
-}
+const filteredItemTrackerData = createItemTrackerData();
+writeFilteredJSONDataToFile('filtered_trader_task_data.json', filteredItemTrackerData);
 
-console.log(createTaskTrackerData());
-
-const createTaskItemTrackerData = () => {
-    return "";
-}
-
-const createHideoutItemTrackerData = () => {
-    return "";
-}
-
-// Get all items required for all tasks
-// function getAllItems(tasks: Task[]): Item[] {
-//     const allItems: Item[] = [];
-//     tasks.forEach(task => {
-//         task.objectives.forEach(objective => {
-//             if (objective.items) {
-//                 objective.items.forEach(item => {
-//                     if (!allItems.find(i => i.name === item.name)) {
-//                         allItems.push(item);
-//                     }
-//                 });
-//             }
-//         });
-//     });
-//     return allItems;
-// }
-
-// const allItems = getAllItems(taskData.tasks);
-// console.log("All Items:", allItems);
+const filteredHideoutTrackerData = createHideoutItemTrackerData();
+writeFilteredJSONDataToFile('filtered_trader_task_data.json', filteredHideoutTrackerData);

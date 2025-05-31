@@ -1,0 +1,1 @@
+// TODO write a node script here which queries the Tarkov.dev graphQL api endpoint and updates the raw data files
