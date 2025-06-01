@@ -1,13 +1,13 @@
-import Layout from '../../components/layout'
+import { Layout } from '../../components'
 import '../../index.css'
 
-export const HomePage:React.FC = () => {
+export const HomePage: React.FC = () => {
     return (
         <Layout>
             <h1>This is the homepage</h1>
             <div className="card">
                 <p>
-                Edit <code>src/App.tsx</code> and save to test HMR
+                    Edit <code>src/App.tsx</code> and save to test HMR
                 </p>
             </div>
             <p className="read-the-docs">

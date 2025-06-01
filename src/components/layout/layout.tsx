@@ -1,5 +1,5 @@
-import Header from "../header";
-import Footer from "../footer";
+import Header from '../header/header';
+import Footer from '../footer/footer';
 import { type ReactNode } from 'react';
 
 type LayoutProps = {
@@ -11,7 +11,7 @@ export const Layout: React.FC<LayoutProps> = (props) => {
     return (
         <div data-testid='layout-container' className="flex flex-column items-center w-100 h-100">
             <Header />
-            <div>
+            <div className="tc">
                 {children}
             </div>
             <Footer />

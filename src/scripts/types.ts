@@ -31,4 +31,5 @@ export interface SimpleTask {
     id: string;
     name: string;
     wikiLink: string;
+    isDone: boolean;
 }

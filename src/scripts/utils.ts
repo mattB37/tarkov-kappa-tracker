@@ -1,4 +1,15 @@
 import type { Task, SimpleTask } from './types'
+import { writeFile } from 'node:fs';
+import { Buffer } from 'node:buffer';
+
+export const writeFilteredJSONDataToFile = (fileName: string, stringifiedJsonData: string) => {
+    const data = new Uint8Array(Buffer.from(stringifiedJsonData));
+    const file_path = `src/data/${fileName}`
+    writeFile(file_path, data, (err) => {
+        if (err) throw err;
+        console.log('The file has been saved!');
+    });
+};
 
 // convert a map of string to task data to JSON
 export const toJSON = (map: Map<String, SimpleTask[]>) => {
@@ -18,7 +29,7 @@ export const toJSON = (map: Map<String, SimpleTask[]>) => {
         obj[key.toString()] = getValue(value);
     }
 
-    return obj;
+    return JSON.stringify(obj);
 }
 
 // retrieve unique trader names from Task data
@@ -46,7 +57,8 @@ export const createTaskTrackerData = (traderNames: Set<string>, kappaTasks: Task
         result.get(task.trader.name)?.push({
             id: task.id,
             name: task.name,
-            wikiLink: task.wikiLink
+            wikiLink: task.wikiLink,
+            isDone: false
         })
     });
 
