@@ -5,13 +5,12 @@ interface TaskItemProps {
     task: SimpleTask;
     index: number;
     handleTaskStatusChange: (index: number, newIsChecked: boolean) => void;
-    taskStatusList: boolean[];
+    isChecked: boolean;
     shouldHideCompletedTasks: boolean;
 }
 
 export const TaskItem: React.FC<TaskItemProps> = (props) => {
-    const { task, index, handleTaskStatusChange, taskStatusList, shouldHideCompletedTasks } = props;
-    const isChecked = taskStatusList[index] ?? false;
+    const { task, index, handleTaskStatusChange, shouldHideCompletedTasks, isChecked } = props;
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         handleTaskStatusChange(index, event.target.checked);
@@ -32,7 +31,7 @@ export const TaskItem: React.FC<TaskItemProps> = (props) => {
                 <label>
                     <input
                         type="checkbox"
-                        checked={isChecked}
+                        checked={isChecked ?? false}
                         onChange={handleChange}
                     />
                 </label>

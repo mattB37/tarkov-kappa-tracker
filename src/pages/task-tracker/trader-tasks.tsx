@@ -26,7 +26,6 @@ export const TraderTasks: React.FC<TraderTasksProps> = (props) => {
     const updateLocalStorage = (newList: boolean[]) => {
         try {
             localStorage.setItem(selectedTrader, JSON.stringify(newList));
-            console.log('Tasks saved to local storage!');
         } catch (error) {
             console.error('Error saving data to local storage:', error);
         }
@@ -46,7 +45,7 @@ export const TraderTasks: React.FC<TraderTasksProps> = (props) => {
                     <li key={task.id} className={classNames(
                         'flex justify-center tc',
                     )}>
-                        <TaskItem task={task} taskStatusList={taskStatusList} index={index} handleTaskStatusChange={handleTaskStatusChange} shouldHideCompletedTasks={shouldHideCompletedTasks} />
+                        <TaskItem task={task} isChecked={taskStatusList[index]} index={index} handleTaskStatusChange={handleTaskStatusChange} shouldHideCompletedTasks={shouldHideCompletedTasks} />
                     </li>
                 );
             })}
