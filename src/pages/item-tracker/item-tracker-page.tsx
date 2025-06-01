@@ -1,10 +1,10 @@
 import { Layout } from '../../components'
 import '../../index.css'
 
-export const HideoutTrackerPage: React.FC = () => {
+export const ItemTrackerPage: React.FC = () => {
     return (
         <Layout>
-            <h1>Tarkov Hideout Tracker</h1>
+            <h1>Kappa Item Tracker</h1>
             <p className="read-the-docs">
                 Coming Soon
             </p>
@@ -12,4 +12,4 @@ export const HideoutTrackerPage: React.FC = () => {
     );
 };
 
-export default HideoutTrackerPage;
+export default ItemTrackerPage;
