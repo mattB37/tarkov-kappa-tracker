@@ -3,13 +3,21 @@ export type HeaderLink = {
     href: string,
 }
 
-export const HEADERLINKS:Array<HeaderLink> = [
+export const HEADERLINKS: Array<HeaderLink> = [
     {
-        name: "Quest Tracker",
-        href: "quest-tracker"
+        name: "Tasks",
+        href: "task-tracker"
     },
     {
-        name: "Hideout Tracker",
+        name: "FIR Items",
+        href: "item-tracker"
+    },
+    {
+        name: "Hideout",
         href: "hideout-tracker"
     },
+    {
+        name: "Prestige",
+        href: "prestige-tracker"
+    }
 ];
