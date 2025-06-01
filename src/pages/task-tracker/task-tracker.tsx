@@ -13,16 +13,6 @@ export const TaskTracker: React.FC<TaskTrackerProps> = (props) => {
     const traderNames = Array.from(taskData.keys());
     const [selectedTrader, setSelectedTrader] = useState<string>("Therapist");
     const tasks = taskData.get(selectedTrader);
-    const [shouldHideCompletedTasks, setShouldHideCompletedTasks] = useState<boolean>(false);
-    const handleOnClickHideTasks = () => {
-        setShouldHideCompletedTasks(!shouldHideCompletedTasks)
-    }
-    const handleResetTaskTracking = () => {
-        traderNames.forEach((traderName) => {
-            localStorage.removeItem(traderName);
-        })
-        window.location.href = window.location.href
-    }
 
     return (
         <>
@@ -30,13 +20,11 @@ export const TaskTracker: React.FC<TaskTrackerProps> = (props) => {
             <div className='mb2'>
                 Select a trader and track your tasks here. Task status is automatically saved to your browser's local storage.
             </div>
-            <button onClick={handleOnClickHideTasks}>{shouldHideCompletedTasks ? 'show completed tasks' : 'hide completed tasks'}</button>
-            <button className="ml2" onClick={handleResetTaskTracking}>Reset Tracking</button>
             <div data-testid='task-list'>
                 <div className="flex justify-center list pa2">
                     <Traders traderNames={traderNames} setSelectedTrader={setSelectedTrader} selectedTrader={selectedTrader} />
                 </div>
-                {tasks && <TraderTasks tasks={tasks} selectedTrader={selectedTrader} shouldHideCompletedTasks={shouldHideCompletedTasks} />}
+                {tasks && <TraderTasks traderNames={traderNames} tasks={tasks} selectedTrader={selectedTrader} />}
             </div>
         </>
     );
