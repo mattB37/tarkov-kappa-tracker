@@ -1,4 +1,4 @@
-import type { Task, SimpleTask } from './types'
+import type { Task, SimpleTask, SimpleItem, pushItemParams, Objective, Item } from './types'
 import { writeFile } from 'node:fs';
 import { Buffer } from 'node:buffer';
 
@@ -65,8 +65,49 @@ export const createTaskTrackerData = (traderNames: Set<string>, kappaTasks: Task
     return JSON.stringify(toJSON(result));
 }
 
-export const createItemTrackerData = () => {
-    return "";
+export const createItemTrackerData = (kappaTasks: Task[]) => {
+    const result: SimpleItem[] = new Array();
+    let item_id: number = 0;
+    const setOfShouldRenderItemNames = new Set<string>(['stimulant', 'assault-rifle', 'mechanical-key', 'shotgun', 'handgun', 'custom']);
+
+    const pushItem = (objective: Objective, item: Item, taskWikiLink: string, taskName: string) => {
+        result.push({
+            id: item_id,
+            name: item.name,
+            shortName: item.shortName,
+            requiredFIR: objective.foundInRaid,
+            neededCount: objective.count,
+            iconLink: item.iconLink,
+            wikiLinkTask: taskWikiLink,
+            wikiLinkItem: item.wikiLink,
+            shouldRenderItemName: setOfShouldRenderItemNames.has(item.category.normalizedName) && taskName !== 'Collector',
+        });
+        item_id += 1;
+    };
+
+    kappaTasks.forEach(task => {
+        task.objectives.forEach(objective => {
+            if (objective && objective.id && objective.type === "giveItem") {
+                const taskName = task.name;
+                if (taskName === "First in Line") {
+                    const customItem: Item = { name: "any medical items", shortName: "Meds", iconLink: 'src/assets/any-medical-item.webp', wikiLink: task.wikiLink, category: { normalizedName: "" } };
+                    pushItem(objective, customItem, task.wikiLink, taskName);
+                } else if (taskName === "Friend From the West - Part 1" || taskName === "The Punisher - Part 6") {
+                    const customItem3: Item = { ...objective.items[0] };
+                    customItem3.category.normalizedName = 'custom';
+                    pushItem(objective, objective.items[0], task.wikiLink, taskName);
+                } else if (taskName === "The Huntsman Path - Sellout" || taskName === "The Huntsman Path - Factory Chief" || taskName === "The Punisher - Part 5") {
+                    pushItem(objective, objective.items[0], task.wikiLink, taskName);
+                } else {
+                    objective.items.forEach(item => {
+                        pushItem(objective, item, task.wikiLink, taskName);
+                    });
+                };
+            }
+        });
+    });
+
+    return JSON.stringify(result);
 }
 
 export const createHideoutItemTrackerData = () => {

@@ -11,9 +11,7 @@ export const Layout: React.FC<LayoutProps> = (props) => {
     return (
         <div data-testid='layout-container' className="flex flex-column items-center w-100 h-100">
             <Header />
-            <div className="tc">
-                {children}
-            </div>
+            {children}
             <Footer />
         </div>
     );
