@@ -9,7 +9,7 @@ export const HEADERLINKS: Array<HeaderLink> = [
         href: "task-tracker"
     },
     {
-        name: "FIR Items",
+        name: "Items",
         href: "item-tracker"
     },
     {

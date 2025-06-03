@@ -15,7 +15,7 @@ export const TaskTracker: React.FC<TaskTrackerProps> = (props) => {
     const tasks = taskData.get(selectedTrader);
 
     return (
-        <>
+        <div className='tc'>
             <h1>Kappa Task Tracker</h1>
             <div className='mb2'>
                 Select a trader and track your tasks here. Task status is automatically saved to your browser's local storage.
@@ -26,7 +26,7 @@ export const TaskTracker: React.FC<TaskTrackerProps> = (props) => {
                 </div>
                 {tasks && <TraderTasks traderNames={traderNames} tasks={tasks} selectedTrader={selectedTrader} />}
             </div>
-        </>
+        </div>
     );
 };
 
