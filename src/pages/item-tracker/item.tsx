@@ -3,7 +3,6 @@ import type { SimpleItem } from "../../scripts/types";
 import classNames from "classnames";
 import { LOCAL_STORAGE_KEY } from "./constants";
 import React from "react";
-import useResponsiveView from "../../hooks/useResponsiveView";
 
 interface ItemProps {
     item: SimpleItem
@@ -62,30 +61,4 @@ export const Item: React.FC<ItemProps> = (props) => {
     )
 };
 
-{/* <div className={classNames(
-            "flex flex-column ba bw1 br1 pa2",
-            { "b--green": item.requiredFIR },
-            { "b--red": !item.requiredFIR },
-            { "bg-dark-green": itemCount === item.neededCount }
-        )}>
-            <div className="flex center justify-center">
-                <img style={{ height: "90px", width: "90px" }} src={item.iconLink} alt={item.name} />
-                <div className="flex-column ml2 mr2">
-                    <div className={classNames("f6 b", { "green": item.requiredFIR, "red": !item.requiredFIR })}>
-                        FIR? {item.requiredFIR ? "YES" : "NO"}
-                    </div>
-                    <div className="f5 b">{item.shortName}</div>
-                    <div className="f5 b">{itemCount} / {item.neededCount}</div>
-                </div>
-                <div className="flex flex-column justify-center mr2">
-                    <button className="ba b--dark-blue white br2 hover-bg-blue w2 h2" onClick={handleAddBtnClick}>+1</button>
-                    <button className="ba b--dark-red white br2 hover-bg-red w2 h2" onClick={handleSubtractBtnClick}>-1</button>
-                </div>
-                <div className="flex flex-column mr2">
-                    <a href={item.wikiLinkTask}>Task wiki link</a>
-                    {item.wikiLinkItem !== "" ? <a href={item.wikiLinkTask}>Item wiki link</a> : "N/A"}
-                </div>
-            </div>
-        </div>
-         */}
 export default Item;

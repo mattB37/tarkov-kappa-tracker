@@ -1,4 +1,4 @@
-import type { Task, SimpleTask, SimpleItem, pushItemParams, Objective, Item } from './types'
+import type { Task, SimpleTask, SimpleItem, Objective, Item } from './types'
 import { writeFile } from 'node:fs';
 import { Buffer } from 'node:buffer';
 

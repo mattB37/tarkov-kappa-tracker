@@ -53,14 +53,3 @@ export interface SimpleItem {
     isForCollectorTask?: boolean;
     shouldRenderItemName?: boolean;
 }
-
-export type pushItemParams = {
-    name: string,
-    shortName: string,
-    requiredFIR: boolean,
-    neededCount: number,
-    iconLink: string,
-    wikiLinkTask: string,
-    wikiLinkItem: string,
-    shouldRenderItemName: boolean | undefined
-}
