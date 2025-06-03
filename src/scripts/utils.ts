@@ -1,4 +1,4 @@
-import type { Task, SimpleTask, SimpleItem, Objective, Item, HideoutData, CustomHideoutStationRequirements } from './types'
+import type { Task, SimpleTask, SimpleItem, Objective, Item } from './types'
 import { writeFile } from 'node:fs';
 import { Buffer } from 'node:buffer';
 
@@ -11,7 +11,7 @@ export const writeFilteredJSONDataToFile = (fileName: string, stringifiedJsonDat
     });
 };
 
-// convert a map of <string, task data> to JSON
+// convert a map of string to task data to JSON
 export const toJSON = (map: Map<String, SimpleTask[]>) => {
     let obj: any = {};
 
@@ -67,9 +67,7 @@ export const createTaskTrackerData = (traderNames: Set<string>, kappaTasks: Task
 
 export const createItemTrackerData = (kappaTasks: Task[]) => {
     const result: SimpleItem[] = new Array();
-    // counter for creating unique item id
     let item_id: number = 0;
-    // hardcoded list item categories where the image is not descriptive enough so we want to also render the name text underneath
     const setOfShouldRenderItemNames = new Set<string>(['stimulant', 'assault-rifle', 'mechanical-key', 'shotgun', 'handgun', 'custom']);
 
     const pushItem = (objective: Objective, item: Item, taskWikiLink: string, taskName: string) => {
@@ -89,10 +87,8 @@ export const createItemTrackerData = (kappaTasks: Task[]) => {
 
     kappaTasks.forEach(task => {
         task.objectives.forEach(objective => {
-            // only count the "giveItem" objectives (some tasks have both giveItem and findItem resulting in duplicates)
             if (objective && objective.id && objective.type === "giveItem") {
                 const taskName = task.name;
-                // need some hardcoded task checks for tasks that have extra item/objective data that is not needed
                 if (taskName === "First in Line") {
                     const customItem: Item = { name: "any medical items", shortName: "Meds", iconLink: 'src/assets/any-medical-item.webp', wikiLink: task.wikiLink, category: { normalizedName: "" } };
                     pushItem(objective, customItem, task.wikiLink, taskName);
@@ -114,68 +110,6 @@ export const createItemTrackerData = (kappaTasks: Task[]) => {
     return JSON.stringify(result);
 }
 
-export const createHideoutItemTrackerData = (hideoutData: HideoutData) => {
-
-    // create a graph of hideout station requirements and run a topological sort to get the optimal order
-    const optimalOrdering: string[] = []; // list of hideStation names in order
-
-    // create the graph data structures
-    let item_id = 0; // unique id for all hideout stations
-    const hideoutDataMap: Map<string, CustomHideoutStationRequirements> = new Map(); // map of hideStation "name + level" to custom hideoutStation object
-    const hideoutMap: Map<string, string[]> = new Map(); // map of hideoutStation "name + level" to "name + level" requirements
-    hideoutData.hideoutStations.forEach((station) => {
-        station.levels.forEach((stationLevel) => {
-            const stationName = `${station.name} ${stationLevel.level}`;
-            const customStation: CustomHideoutStationRequirements = {
-                id: item_id,
-                name: stationName,
-                level: stationLevel.level,
-                itemReqs: stationLevel.itemRequirements
-            };
-            item_id += 1;
-            hideoutDataMap.set(stationName, customStation);
-            hideoutMap.set(stationName, [])
-            stationLevel.stationLevelRequirements.forEach((requirement) => {
-                const requiredStationName = `${requirement.station.name} ${requirement.level}`
-                hideoutMap.get(stationName)?.push(requiredStationName);
-            })
-        })
-    });
-
-    // run topological sort using DFS
-    const visited: Set<string> = new Set();
-
-    const dfs = (node: string, tempVisited: Set<string>) => {
-        if (visited.has(node)) { // already added this node to the toposort
-            return;
-        }
-        if (tempVisited.has(node)) { // found a cycle
-            throw Error("found a cycle in the graph");
-        }
-        tempVisited.add(node);
-
-        hideoutMap.get(node)?.forEach((neighbor) => {
-            dfs(neighbor, tempVisited);
-        })
-        visited.add(node);
-        optimalOrdering.push(node);
-    }
-
-    // loop through each node of the map and run DFS starting from each Node
-    Array.from(hideoutMap.keys()).forEach((node) => {
-        const tempVisited: Set<string> = new Set();
-        dfs(node, tempVisited);
-    })
-
-    // loop through the ordering an create a list of hideout stations
-    const result: CustomHideoutStationRequirements[] = new Array();
-
-    optimalOrdering.forEach((station) => {
-        const customStationObj = hideoutDataMap.get(station);
-        if (customStationObj) {
-            result.push(customStationObj);
-        }
-    })
-
-    return JSON.stringify(result);
+export const createHideoutItemTrackerData = () => {
+    return "";
 }

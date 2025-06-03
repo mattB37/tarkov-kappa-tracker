@@ -15,5 +15,9 @@ export const HEADERLINKS: Array<HeaderLink> = [
     {
         name: "Hideout",
         href: "hideout-tracker"
+    },
+    {
+        name: "Prestige",
+        href: "prestige-tracker"
     }
 ];
