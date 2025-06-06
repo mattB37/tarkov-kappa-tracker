@@ -1,0 +1,24 @@
+query HideoutQuery {
+  hideoutStations(gameMode: regular) {
+    name
+    id
+    levels {
+      level
+      itemRequirements {
+        count
+        item {
+          name
+          shortName
+          iconLink
+          wikiLink
+        }
+      }
+      stationLevelRequirements {
+        level
+        station {
+          name
+        }
+      }
+    }
+  }
+}

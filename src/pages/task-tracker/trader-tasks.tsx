@@ -34,19 +34,15 @@ export const TraderTasks: React.FC<TraderTasksProps> = (props) => {
         );
     }, [selectedTrader])
 
-    const updateLocalStorage = (newList: boolean[]) => {
-        try {
-            localStorage.setItem(selectedTrader, JSON.stringify(newList));
-        } catch (error) {
-            console.error('Error saving data to local storage:', error);
-        }
-    }
-
     const handleTaskStatusChange = (index: number, newValue: boolean) => {
         const updatedList = [...taskStatusList];
         updatedList[index] = newValue;
         setTaskStatusList(updatedList);
-        updateLocalStorage(updatedList);
+        try {
+            localStorage.setItem(selectedTrader, JSON.stringify(updatedList));
+        } catch (error) {
+            console.error('Error saving data to local storage:', error);
+        }
     };
 
     return (

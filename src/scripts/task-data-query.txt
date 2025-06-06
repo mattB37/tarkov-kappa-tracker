@@ -1,0 +1,25 @@
+query TaskQuery {
+  tasks(gameMode: regular) {
+    id
+    name
+    kappaRequired
+    wikiLink
+    trader {
+      name
+    }
+    objectives {
+      ... on TaskObjectiveItem {
+        id
+        foundInRaid
+        count
+        type
+        items {
+          name
+          iconLink
+          wikiLink
+          shortName
+        }
+      }
+    }
+  }
+}

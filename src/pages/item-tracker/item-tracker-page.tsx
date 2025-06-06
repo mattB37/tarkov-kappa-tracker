@@ -20,7 +20,7 @@ export const ItemTrackerPage: React.FC = () => {
                 <div>Found in raid items marked with <span className='red'>*FIR</span></div>
                 <div>Item counts are automatically saved to browser local storage</div>
             </div>
-            <div className="ml2 mr2 mb2 justify-center">
+            <div className="ml2 mr2 mb2">
                 <button onClick={handleResetItemTracking}>Reset Tracking</button>
             </div>
             <ItemTracker itemData={items} />

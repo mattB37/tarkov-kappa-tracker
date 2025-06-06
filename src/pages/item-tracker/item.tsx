@@ -1,30 +1,22 @@
 import { useState } from "react";
 import type { SimpleItem } from "../../scripts/types";
 import classNames from "classnames";
-import { LOCAL_STORAGE_KEY } from "./constants";
 import React from "react";
 
 interface ItemProps {
     item: SimpleItem
     index: number
     startingCount: number
+    handleUpdateLocalStorageData: (index: number, newCount: number) => void
+    shouldHideCompletedItems: boolean
 }
 
 export const Item: React.FC<ItemProps> = (props) => {
-    const { item, index, startingCount } = props;
+    const { item, index, startingCount, handleUpdateLocalStorageData, shouldHideCompletedItems } = props;
     const [itemCount, setItemCount] = useState<number>(startingCount);
 
-    const handleUpdateLocalStorageData = (index: number, newCount: number) => {
-        try {
-            const localStorageData = localStorage.getItem(LOCAL_STORAGE_KEY);
-            if (localStorageData) {
-                const itemCounts: number[] = JSON.parse(localStorageData);
-                itemCounts[index] = newCount;
-                localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(itemCounts));
-            }
-        } catch (error) {
-            console.error('Error updating item data in local storage', error);
-        }
+    if (shouldHideCompletedItems && itemCount === item.neededCount) {
+        return
     }
 
     const handleAddBtnClick = () => {
@@ -46,7 +38,7 @@ export const Item: React.FC<ItemProps> = (props) => {
         )}>
             <div className="flex flex-column center justify-center">
                 <img style={{ height: "90px", width: "90px" }} src={item.iconLink} alt={item.name} />
-                <div className="b">{item.shouldRenderItemName ? item.shortName : null}</div>
+                <div className="b">{item.shortName}</div>
                 <div className="f5 b">{itemCount}/{item.neededCount} {item.requiredFIR ? <span className="red">*FIR</span> : null}</div>
                 <div className="flex flex-row justify-center ma1">
                     <button className="mr2 white w2 h2 hover-yellow" onClick={handleAddBtnClick}>+1</button>
