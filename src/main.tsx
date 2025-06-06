@@ -1,10 +1,10 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
-import { BrowserRouter, Route, Routes } from "react-router";
+import { HashRouter, Route, Routes } from "react-router";
 import { HomePage, TaskTrackerPage, HideoutTrackerPage, ItemTrackerPage } from './pages';
 
 createRoot(document.getElementById('root')!).render(
-  <BrowserRouter>
+  <HashRouter>
     <StrictMode>
       <Routes>
         <Route path="/" element={<HomePage />} />
@@ -14,5 +14,5 @@ createRoot(document.getElementById('root')!).render(
         <Route path="*" element={<div><h1>404 - Page Not Found</h1><p>Sorry, the page you are looking for does not exist.</p></div>} />
       </Routes>
     </StrictMode>
-  </BrowserRouter>,
+  </HashRouter>,
 );
