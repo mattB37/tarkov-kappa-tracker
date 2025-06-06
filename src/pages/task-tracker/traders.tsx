@@ -1,5 +1,5 @@
 import TherapistImg from "../../assets/trader_images/therapist.webp";
-import PraporImg from "../../assets/trader_images/therapist.webp";
+import PraporImg from "../../assets/trader_images/prapor.webp";
 import SkierImg from "../../assets/trader_images/skier.webp";
 import MechanicImg from "../../assets/trader_images/mechanic.webp";
 import JaegerImg from "../../assets/trader_images/jaeger.webp";
