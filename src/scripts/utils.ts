@@ -116,6 +116,9 @@ export const createItemTrackerData = (kappaTasks: Task[]) => {
 
 export const createHideoutItemTrackerData = (hideoutData: HideoutData) => {
 
+    // not really sure if this is the best way to get an ordering of hideout stations
+    // or if I should just hardcode an order. kinda lazy so just leaving it
+
     // create a graph of hideout station requirements and run a topological sort to get the optimal order
     const optimalOrdering: string[] = []; // list of hideStation names in order
 

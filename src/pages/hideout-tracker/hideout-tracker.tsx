@@ -66,7 +66,7 @@ export const HideoutTracker: React.FC<ItemTrackerProps> = ({ hideoutData }) => {
         half = Math.ceil(hideoutData.length / 2);
         firstColumnData = hideoutData.slice(0, half);
         secondColumnData = hideoutData.slice(half);
-        secondColumnOffset = firstColumnData.reduce((acc, val) => { return (acc + val.itemReqs.length) }, 0);
+        secondColumnOffset = firstColumnData.length;
     }
     const renderColumn = (data: CustomHideoutStationRequirements[], indexOffset: number) => {
         return data.map((station, rowIndex) => {
@@ -74,7 +74,7 @@ export const HideoutTracker: React.FC<ItemTrackerProps> = ({ hideoutData }) => {
                 <div key={station.id} className="tc ba br1 b--white ml1 mr1 mb3">
                     <div className="flex flex-wrap items-center">
                         <img style={{ height: "50px", width: "50px" }} src={station.imageLink} alt={`image of ${station.name}`}></img>
-                        <div ref={el => { if (el) stationRefs.current[rowIndex + indexOffset] = el }} className="f4">{station.name}</div>
+                        <div ref={el => { if (el) { stationRefs.current[rowIndex + indexOffset] = el } }} className="f4">{station.name}</div>
                         <div><button className="bg-transparent bn underline f5" onClick={handleBackToTop}>Back to Top</button></div>
                     </div>
                     <div className="list pa0 ma0 flex flex-wrap">

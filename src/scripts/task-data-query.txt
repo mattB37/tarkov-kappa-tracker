@@ -4,7 +4,6 @@ query TaskQuery {
     name
     kappaRequired
     wikiLink
-    minPlayerLevel
     trader {
       name
     }
@@ -19,9 +18,6 @@ query TaskQuery {
           iconLink
           wikiLink
           shortName
-          image8xLink
-          imageLink
-          inspectImageLink
         }
       }
     }

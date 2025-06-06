@@ -50,7 +50,6 @@ export interface SimpleItem {
     iconLink: string;
     wikiLinkTask: string;
     wikiLinkItem: string;
-    isForCollectorTask?: boolean;
     shouldRenderItemName?: boolean;
 }
 

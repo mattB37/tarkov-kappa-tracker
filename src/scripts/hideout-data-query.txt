@@ -13,17 +13,6 @@ query HideoutQuery {
           wikiLink
         }
       }
-      skillRequirements {
-        level
-        name
-      }
-      traderRequirements {
-        value
-        requirementType
-        trader {
-          name
-        }
-      }
       stationLevelRequirements {
         level
         station {
