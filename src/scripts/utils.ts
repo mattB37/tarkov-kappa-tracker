@@ -1,4 +1,4 @@
-import type { Task, SimpleTask, SimpleItem, Objective, Item, HideoutData, CustomHideoutStationRequirements } from './types'
+import type { Task, SimpleTask, SimpleItem, Objective, Item, HideoutData, CustomHideoutStationRequirements, HideoutStation, HideoutRequiredItem } from './types'
 import { writeFile } from 'node:fs';
 import { Buffer } from 'node:buffer';
 
@@ -82,7 +82,7 @@ export const createItemTrackerData = (kappaTasks: Task[]) => {
             iconLink: item.iconLink,
             wikiLinkTask: taskWikiLink,
             wikiLinkItem: item.wikiLink,
-            shouldRenderItemName: setOfShouldRenderItemNames.has(item.category.normalizedName) && taskName !== 'Collector',
+            shouldRenderItemName: setOfShouldRenderItemNames.has(item.category.normalizedName) && taskName !== 'Collector', // currently not using this but might later
         });
         item_id += 1;
     };
@@ -120,20 +120,14 @@ export const createHideoutItemTrackerData = (hideoutData: HideoutData) => {
     const optimalOrdering: string[] = []; // list of hideStation names in order
 
     // create the graph data structures
-    let item_id = 0; // unique id for all hideout stations
-    const hideoutDataMap: Map<string, CustomHideoutStationRequirements> = new Map(); // map of hideStation "name + level" to custom hideoutStation object
+    const hideoutDataMap: Map<string, HideoutStation> = new Map(); // map of station name to raw data
+    const hideoutStationAndLevelNameToStationName: Map<string, string> = new Map();
     const hideoutMap: Map<string, string[]> = new Map(); // map of hideoutStation "name + level" to "name + level" requirements
     hideoutData.hideoutStations.forEach((station) => {
+        hideoutDataMap.set(station.name, station);
         station.levels.forEach((stationLevel) => {
             const stationName = `${station.name} ${stationLevel.level}`;
-            const customStation: CustomHideoutStationRequirements = {
-                id: item_id,
-                name: stationName,
-                level: stationLevel.level,
-                itemReqs: stationLevel.itemRequirements
-            };
-            item_id += 1;
-            hideoutDataMap.set(stationName, customStation);
+            hideoutStationAndLevelNameToStationName.set(stationName, station.name);
             hideoutMap.set(stationName, [])
             stationLevel.stationLevelRequirements.forEach((requirement) => {
                 const requiredStationName = `${requirement.station.name} ${requirement.level}`
@@ -167,15 +161,51 @@ export const createHideoutItemTrackerData = (hideoutData: HideoutData) => {
         dfs(node, tempVisited);
     })
 
-    // loop through the ordering an create a list of hideout stations
-    const result: CustomHideoutStationRequirements[] = new Array();
-
-    optimalOrdering.forEach((station) => {
-        const customStationObj = hideoutDataMap.get(station);
-        if (customStationObj) {
-            result.push(customStationObj);
+    // re-map the topo sort ordering of station+level to the regular stations
+    const seen: Set<string> = new Set();
+    const ordering: string[] = new Array();
+    optimalOrdering.forEach(stationAndLevelName => {
+        const stationName = hideoutStationAndLevelNameToStationName.get(stationAndLevelName);
+        if (stationName && !seen.has(stationName)) {
+            seen.add(stationName);
+            ordering.push(stationName);
         }
     })
+
+    // loop through the ordering and create the filtered data for displaying on the site
+    const excludedItems: Set<string> = new Set(['RUB', 'EUR', 'USD']);
+    const result: CustomHideoutStationRequirements[] = [];
+    ordering.forEach(stationName => {
+        const curStationData = hideoutDataMap.get(stationName)
+        const currentStationItemsRequired: HideoutRequiredItem[] = [];
+        if (curStationData) {
+            curStationData.levels.forEach(stationLevel => {
+                stationLevel.itemRequirements.forEach(item => {
+                    if (!excludedItems.has(item.item.shortName)) {
+                        currentStationItemsRequired.push(
+                            {
+                                id: item.id,
+                                count: item.count,
+                                name: item.item.name,
+                                shortName: item.item.shortName,
+                                iconLink: item.item.iconLink,
+                                wikiLink: item.item.wikiLink,
+                                requiredForStationLevel: stationLevel.level,
+                            }
+                        );
+                    }
+                });
+            });
+            result.push(
+                {
+                    id: curStationData.id,
+                    name: curStationData.name,
+                    imageLink: curStationData.imageLink,
+                    itemReqs: currentStationItemsRequired,
+                }
+            );
+        }
+    });
 
     return JSON.stringify(result);
 }

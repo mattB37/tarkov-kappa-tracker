@@ -6,7 +6,7 @@ import '../../index.css'
 export const HideoutTrackerPage: React.FC = () => {
     return (
         <Layout>
-            <h1>Tarkov Hideout Tracker</h1>
+            <h1 className="mb2">Tarkov Hideout Tracker</h1>
             <HideoutTracker hideoutData={data} />
         </Layout>
     );

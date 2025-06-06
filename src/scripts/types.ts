@@ -54,7 +54,7 @@ export interface SimpleItem {
     shouldRenderItemName?: boolean;
 }
 
-export interface HideoutRequiredItem {
+export interface HideoutItem {
     id: string
     count: number
     item: {
@@ -74,13 +74,14 @@ export interface HideoutStationRequiredStation {
 
 export interface HideoutLevels {
     level: number
-    itemRequirements: HideoutRequiredItem[]
+    itemRequirements: HideoutItem[]
     stationLevelRequirements: HideoutStationRequiredStation[]
 }
 
 export interface HideoutStation {
     name: string
     id: string
+    imageLink: string
     levels: HideoutLevels[]
 }
 
@@ -88,9 +89,19 @@ export interface HideoutData {
     hideoutStations: HideoutStation[]
 }
 
-export interface CustomHideoutStationRequirements {
-    id: number
+export interface HideoutRequiredItem {
+    id: string
+    count: number
     name: string
-    level: number
+    shortName: string
+    iconLink: string
+    wikiLink: string
+    requiredForStationLevel: number
+}
+
+export interface CustomHideoutStationRequirements {
+    id: string
+    name: string
+    imageLink: string
     itemReqs: HideoutRequiredItem[]
 }

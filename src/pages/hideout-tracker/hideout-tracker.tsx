@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import { LOCAL_STORAGE_KEY } from "./constants";
 import { HideoutItem } from './hideout-item';
 import useResponsiveView from "../../hooks/useResponsiveView";
@@ -6,69 +6,136 @@ import classNames from "classnames";
 import type { CustomHideoutStationRequirements } from "../../scripts/types";
 
 interface ItemTrackerProps {
-    hideoutData: CustomHideoutStationRequirements[]
+    hideoutData: CustomHideoutStationRequirements[];
 }
 
-export const HideoutTracker: React.FC<ItemTrackerProps> = (props) => {
-    const { hideoutData } = props;
+export const HideoutTracker: React.FC<ItemTrackerProps> = ({ hideoutData }) => {
     const localStorageData = localStorage.getItem(LOCAL_STORAGE_KEY);
-    // startingCounts is a 2d array
-    //      index 1 corresponds to the position of the hideout station in hideoutData
-    //      index 2 corresponds to the item count in the list of requirements 
-    const [startingCounts, setStartingCounts] = useState<number[][]>(localStorageData ? JSON.parse(localStorageData) : []);
+    const initialItemCounts: number[] = useMemo(() => {
+        return (new Array(hideoutData.reduce((acc, val) => { return (acc + val.itemReqs.length) }, 0))).fill(0);
+    }, [hideoutData]);
+    const startingCounts = localStorageData ? JSON.parse(localStorageData) : initialItemCounts;
     const isMobile = useResponsiveView();
+
+    const stationRefs = useRef<HTMLDivElement[]>([]);
+    const handleScrollToStation = (index: number) => {
+        stationRefs.current[index]?.scrollIntoView({
+            behavior: "auto"
+        });
+    };
+    const handleBackToTop = () => {
+        window.scrollTo({
+            top: 0,
+            behavior: "auto",
+        });
+    };
+
+    const handleResetItemTracking = () => {
+        localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(initialItemCounts));
+        window.location.href = window.location.href
+    }
 
     useEffect(() => {
         try {
             if (!localStorageData) {
-                const defaultData = new Array(hideoutData.length).fill([]); // number of stations total
-                defaultData.forEach((arr, index) => { // for each station there are X levels each needs an array of items
-                    const station = hideoutData.at(index);
-                    if (station) {
-                        arr.push(new Array(station.itemReqs.length).fill(0));
-                    }
-                })
-                localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(defaultData));
-                setStartingCounts(defaultData);
+                localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(startingCounts));
             }
         } catch (error) {
             console.error('Error saving default data to local storage:', error);
         }
     }, []);
 
+    const handleUpdateLocalStorageData = (index: number, newCount: number) => {
+        try {
+            const localStorageData = localStorage.getItem(LOCAL_STORAGE_KEY);
+            if (localStorageData) {
+                const itemCounts: number[] = JSON.parse(localStorageData);
+                itemCounts[index] = newCount;
+                localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(itemCounts));
+            }
+        } catch (error) {
+            console.error('Error updating item data in local storage', error);
+        }
+    }
+
+    let half: number | undefined;
+    let firstColumnData: CustomHideoutStationRequirements[] | undefined;
+    let secondColumnData: CustomHideoutStationRequirements[] | undefined;
+    let secondColumnOffset: number | undefined;
+    if (!isMobile) {
+        half = Math.ceil(hideoutData.length / 2);
+        firstColumnData = hideoutData.slice(0, half);
+        secondColumnData = hideoutData.slice(half);
+        secondColumnOffset = firstColumnData.reduce((acc, val) => { return (acc + val.itemReqs.length) }, 0);
+    }
+    const renderColumn = (data: CustomHideoutStationRequirements[], indexOffset: number) => {
+        return data.map((station, rowIndex) => {
+            return (
+                <div key={station.id} className="tc ba br1 b--white ml1 mr1 mb3">
+                    <div className="flex flex-wrap items-center">
+                        <img style={{ height: "50px", width: "50px" }} src={station.imageLink} alt={`image of ${station.name}`}></img>
+                        <div ref={el => { if (el) stationRefs.current[rowIndex + indexOffset] = el }} className="f4">{station.name}</div>
+                        <div><button className="bg-transparent bn underline f5" onClick={handleBackToTop}>Back to Top</button></div>
+                    </div>
+                    <div className="list pa0 ma0 flex flex-wrap">
+                        {station.itemReqs.map((req, colIndex) => (
+                            <li key={req.id}>
+                                <HideoutItem
+                                    startingCount={startingCounts[station.itemReqs.length * (rowIndex + indexOffset) + colIndex] ?? 0}
+                                    index={station.itemReqs.length * (rowIndex + indexOffset) + colIndex}
+                                    neededCount={req.count}
+                                    item={req}
+                                    handleUpdateLocalStorageData={handleUpdateLocalStorageData}
+                                />
+                            </li>
+                        ))}
+                    </div>
+                </div>
+            );
+        });
+    };
+
     return (
-        <div>
-            <ul className={classNames(
-                "list pa0 ma0 flex flex-column justify-center",
+        <>
+            <div className='flex flex-column mb2 f5 tc'>
+                <div>All hideout items need to be found in raid as of patch 0.16 on 12/25/2024</div>
+                <div>Item counts are automatically saved to browser local storage</div>
+            </div>
+            <div className="ml2 mr2 mb2 justify-center">
+                <button onClick={handleResetItemTracking}>Reset Tracking</button>
+            </div>
+            <div className="tc mb2">
+                Click The Icons to Jump to Station
+                <div className="flex flex-wrap justify-center list">
+                    {hideoutData.map((station, index) => {
+                        return (
+                            <li key={station.id}>
+                                <a className="bg-transparent bn pa1 pointer" onClick={() => { handleScrollToStation(index) }}>
+                                    <img style={isMobile ? { height: "30px", width: "30px" } : { height: "50px", width: "50px" }} src={station.imageLink}></img>
+                                </a>
+                            </li>
+                        )
+                    })}
+                </div>
+            </div>
+            <div className={classNames("w-100",
                 { "mr3 ml3": !isMobile },
                 { "ml2": isMobile }
             )}>
-                {hideoutData.map((station, index1) => {
-                    return (
-                        <li key={station.id} className="ma2">
-                            <div className="flex flex-row overflow-x-auto">
-                                {station.itemReqs.map((subStation, index2) => {
-                                    return (
-                                        <li key={subStation.id}>
-                                            <HideoutItem
-                                                startingCount={startingCounts && startingCounts[index1] ? startingCounts[index1][index2] : 0}
-                                                neededCount={subStation.count}
-                                                name={subStation.item.name}
-                                                shortName={subStation.item.shortName}
-                                                iconLink={subStation.item.iconLink}
-                                                wikiLink={subStation.item.wikiLink}
-                                                index1={index1}
-                                                index2={index2}
-                                            />
-                                        </li>
-                                    );
-                                })}
-                            </div>
-                        </li>
-                    );
-                })}
-            </ul>
-        </div >
+                {isMobile ? (
+                    renderColumn(hideoutData, 0)
+                ) : firstColumnData && secondColumnData && secondColumnOffset ? (
+                    <div className="flex flex-row">
+                        <div>
+                            {renderColumn(firstColumnData, 0)}
+                        </div>
+                        <div>
+                            {renderColumn(secondColumnData, secondColumnOffset)}
+                        </div>
+                    </div>
+                ) : <div>Error occured</div>}
+            </div>
+        </>
     );
 }
 
