@@ -1,3 +1,12 @@
+import TherapistImg from "../../assets/trader_images/therapist.webp";
+import PraporImg from "../../assets/trader_images/therapist.webp";
+import SkierImg from "../../assets/trader_images/skier.webp";
+import MechanicImg from "../../assets/trader_images/mechanic.webp";
+import JaegerImg from "../../assets/trader_images/jaeger.webp";
+import PeacekeeperImg from "../../assets/trader_images/peacekeeper.webp";
+import RagmanImg from "../../assets/trader_images/ragman.webp";
+import FenceImg from "../../assets/trader_images/fence.webp";
+
 interface TradersProps {
     traderNames: string[]
     setSelectedTrader: React.Dispatch<React.SetStateAction<string>>
@@ -9,14 +18,14 @@ type TraderToImage = {
 }
 
 const traderNameToImagePath: TraderToImage = {
-    "Therapist": 'src/assets/trader_images/therapist.webp',
-    "Prapor": 'src/assets/trader_images/prapor.webp',
-    "Skier": 'src/assets/trader_images/skier.webp',
-    "Mechanic": 'src/assets/trader_images/mechanic.webp',
-    "Jaeger": 'src/assets/trader_images/jaeger.webp',
-    "Peacekeeper": 'src/assets/trader_images/peacekeeper.webp',
-    "Ragman": 'src/assets/trader_images/ragman.webp',
-    "Fence": 'src/assets/trader_images/fence.webp',
+    "Therapist": TherapistImg,
+    "Prapor": PraporImg,
+    "Skier": SkierImg,
+    "Mechanic": MechanicImg,
+    "Jaeger": JaegerImg,
+    "Peacekeeper": PeacekeeperImg,
+    "Ragman": RagmanImg,
+    "Fence": FenceImg,
 }
 
 export const Traders: React.FC<TradersProps> = (props) => {

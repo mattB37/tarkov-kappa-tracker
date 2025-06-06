@@ -1,6 +1,7 @@
 import { type HeaderLink, HEADERLINKS } from './constants'
 import useResponsiveView from '../../hooks/useResponsiveView';
 import classNames from 'classnames';
+import KappaImg from "../../assets/KappaContainer.webp";
 
 export const Header: React.FC = () => {
     const isMobile = useResponsiveView();
@@ -9,8 +10,8 @@ export const Header: React.FC = () => {
             <header className={classNames("flex mv1 f3", { "f4": isMobile })}>
                 <ul className={classNames("flex tc items-center ph0 mh0 mv0 list", { "h1": isMobile })}>
                     <li className={classNames("flex br-pill bg-gold", { "pa1": !isMobile })}>
-                        <a href="/" className="flex items-center hover-black no-underline mid-gray pl1 pr2 ma0">
-                            <img style={isMobile ? { height: "25px", width: "30px" } : { height: "40px", width: "50px" }} src="src/assets/KappaContainer.webp" alt="kappa container" />
+                        <a href="/tarkov-kappa-tracker/#/" className="flex items-center hover-black no-underline mid-gray pl1 pr2 ma0">
+                            <img style={isMobile ? { height: "25px", width: "30px" } : { height: "40px", width: "50px" }} src={KappaImg} alt="kappa container" />
                             Tracker
                         </a>
                     </li>
