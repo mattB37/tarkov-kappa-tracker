@@ -6,14 +6,14 @@ export type HeaderLink = {
 export const HEADERLINKS: Array<HeaderLink> = [
     {
         name: "Tasks",
-        href: "/#/task-tracker"
+        href: "/tarkov-kappa-tracker/#/task-tracker"
     },
     {
         name: "Items",
-        href: "/#/item-tracker"
+        href: "/tarkov-kappa-tracker/#/item-tracker"
     },
     {
         name: "Hideout",
-        href: "/#/hideout-tracker"
+        href: "/tarkov-kappa-tracker/#/hideout-tracker"
     }
 ];
