@@ -2,6 +2,8 @@ import type { Task, SimpleTask, SimpleItem, Objective, Item, HideoutData, Custom
 import { writeFile } from 'node:fs';
 import { Buffer } from 'node:buffer';
 
+const excludedItems: Set<string> = new Set(['RUB', 'EUR', 'USD']);
+
 export const writeFilteredJSONDataToFile = (fileName: string, stringifiedJsonData: string) => {
     const data = new Uint8Array(Buffer.from(stringifiedJsonData));
     const file_path = `src/data/${fileName}`
@@ -73,18 +75,20 @@ export const createItemTrackerData = (kappaTasks: Task[]) => {
     const setOfShouldRenderItemNames = new Set<string>(['stimulant', 'assault-rifle', 'mechanical-key', 'shotgun', 'handgun', 'custom']);
 
     const pushItem = (objective: Objective, item: Item, taskWikiLink: string, taskName: string) => {
-        result.push({
-            id: item_id,
-            name: item.name,
-            shortName: item.shortName,
-            requiredFIR: objective.foundInRaid,
-            neededCount: objective.count,
-            iconLink: item.iconLink,
-            wikiLinkTask: taskWikiLink,
-            wikiLinkItem: item.wikiLink,
-            shouldRenderItemName: setOfShouldRenderItemNames.has(item.category.normalizedName) && taskName !== 'Collector', // currently not using this but might later
-        });
-        item_id += 1;
+        if (!excludedItems.has(item.shortName)) {
+            result.push({
+                id: item_id,
+                name: item.name,
+                shortName: item.shortName,
+                requiredFIR: objective.foundInRaid,
+                neededCount: objective.count,
+                iconLink: item.iconLink,
+                wikiLinkTask: taskWikiLink,
+                wikiLinkItem: item.wikiLink,
+                shouldRenderItemName: setOfShouldRenderItemNames.has(item.category.normalizedName) && taskName !== 'Collector', // currently not using this but might later
+            });
+            item_id += 1;
+        }
     };
 
     kappaTasks.forEach(task => {
@@ -176,7 +180,6 @@ export const createHideoutItemTrackerData = (hideoutData: HideoutData) => {
     })
 
     // loop through the ordering and create the filtered data for displaying on the site
-    const excludedItems: Set<string> = new Set(['RUB', 'EUR', 'USD']);
     const result: CustomHideoutStationRequirements[] = [];
     ordering.forEach(stationName => {
         const curStationData = hideoutDataMap.get(stationName)

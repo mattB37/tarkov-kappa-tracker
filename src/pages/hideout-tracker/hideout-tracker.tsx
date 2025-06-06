@@ -18,14 +18,14 @@ export const HideoutTracker: React.FC<ItemTrackerProps> = ({ hideoutData }) => {
     const isMobile = useResponsiveView();
 
     const stationRefs = useRef<HTMLDivElement[]>([]);
+    const buttonRef = useRef<HTMLDivElement>(null);
     const handleScrollToStation = (index: number) => {
         stationRefs.current[index]?.scrollIntoView({
             behavior: "auto"
         });
     };
     const handleBackToTop = () => {
-        window.scrollTo({
-            top: 0,
+        buttonRef.current?.scrollIntoView({
             behavior: "auto",
         });
     };
@@ -104,9 +104,9 @@ export const HideoutTracker: React.FC<ItemTrackerProps> = ({ hideoutData }) => {
             <div className="ml2 mr2 mb2 justify-center">
                 <button onClick={handleResetItemTracking}>Reset Tracking</button>
             </div>
-            <div className="tc mb2">
-                Click The Icons to Jump to Station
-                <div className="flex flex-wrap justify-center list">
+            <div className="tc mb2 b">
+                Click The Icons to Jump to a Specific Hideout Station
+                <div ref={el => { if (el) buttonRef.current = el }} className="flex flex-wrap justify-center list">
                     {hideoutData.map((station, index) => {
                         return (
                             <li key={station.id}>
