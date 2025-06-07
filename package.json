@@ -8,8 +8,8 @@
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "setup-data": "node ./src/scripts/refresh_raw_data.ts",
-    "filter-data": "node ./src/scripts/filter_data.ts",
+    "fetch": "node ./src/scripts/refresh_raw_data.ts",
+    "filter": "node ./src/scripts/filter_data.ts",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d dist"
   },

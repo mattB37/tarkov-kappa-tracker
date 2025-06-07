@@ -1,5 +1,5 @@
-import rawData from './raw-task-data.json' with {type: "json"};
-import hideoutRawData from './raw-hideout-data.json' with {type: "json"}
+import rawData from '../data/raw-task-data.json' with {type: "json"};
+import hideoutRawData from '../data/raw-hideout-data.json' with {type: "json"}
 import type { TaskData, HideoutData } from './types';
 import { writeFilteredJSONDataToFile, getUniqueTraderNames, createTaskTrackerData, createItemTrackerData, createHideoutItemTrackerData } from './utils.ts';
 
