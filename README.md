@@ -2,7 +2,7 @@
 
 The data was last updated on 06/07/2025.
 
-This project was possible because of the hard work by people from Tarkov.dev and The EFT Wiki. All of the data came from the Tarkov.dev GraphQL API which is freely available here. Feel free to Donate to keep the Tarkov.dev site running.
+This project was possible because of the hard work by people from Tarkov.dev and The EFT Wiki. All of the data came from the Tarkov.dev GraphQL API which is freely available at https://tarkov.dev/api/. Feel free to Donate to them to keep the Tarkov.dev site running.
 
 If you find any issues or have any ideas to improve the website feel free to contribute or post an issue on GitHub.
 
