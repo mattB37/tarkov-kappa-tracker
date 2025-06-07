@@ -7,6 +7,7 @@ query HideoutQuery {
     levels {
       level
       itemRequirements {
+        id
         count
         item {
           name
