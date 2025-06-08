@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import type { SimpleTask } from "../../scripts/types";
 import classNames from "classnames";
 import { TaskItem } from "./task-item";
+import "../../index.css"
 
 interface TraderTasksProps {
     tasks: SimpleTask[],
@@ -22,7 +23,7 @@ export const TraderTasks: React.FC<TraderTasksProps> = (props) => {
         traderNames.forEach((traderName) => {
             localStorage.removeItem(traderName);
         })
-        window.location.href = window.location.href
+        window.location.reload();
     }
 
     useEffect(() => {
@@ -47,8 +48,8 @@ export const TraderTasks: React.FC<TraderTasksProps> = (props) => {
 
     return (
         <>
-            <button onClick={handleOnClickHideTasks}>{shouldHideCompletedTasks ? 'show completed tasks' : 'hide completed tasks'}</button>
-            <button className="ml2 mb2" onClick={handleResetTaskTracking}>Reset Tracking</button>
+            <button className="base-btn" onClick={handleOnClickHideTasks}>{shouldHideCompletedTasks ? 'Show Completed' : 'Hide Completed'}</button>
+            <button className="ml2 mb2 base-btn" onClick={handleResetTaskTracking}>Reset Tracking</button>
             <ul className='overflow-y-scroll pa0 ma0'>
                 {tasks?.map((task, index) => {
                     return (

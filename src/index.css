@@ -39,3 +39,42 @@ h1 {
   font-size: 3.2em;
   line-height: 1.1;
 }
+
+.base-btn {
+  transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  color: #FFFFFF;
+  background-color: #616161;
+  color-scheme: light dark;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.base-btn:hover {
+  color: #FFD700;
+  transform: scale(1.05);
+}
+
+.btn-plus-minus {
+  background-color: #026dd9;
+  color: #FFFFFF;
+  border: none;
+  border-radius: 8px;
+  font-size: 24px;
+  font-weight: bold;
+  cursor: pointer;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  min-width: 30px;
+  min-height: 30px;
+}
+
+.btn-plus-minus:hover {
+  color: #FFD700;
+  background-color: #003366;
+  transform: scale(1.05);
+}

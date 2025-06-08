@@ -3,6 +3,7 @@ import type { SimpleItem } from "../../scripts/types";
 import classNames from "classnames";
 import React from "react";
 import AnyMedItemImg from "../../assets/any-medical-item.webp";
+import '../../index.css'
 
 interface ItemProps {
     item: SimpleItem
@@ -22,12 +23,12 @@ export const Item: React.FC<ItemProps> = (props) => {
 
     const handleAddBtnClick = () => {
         // for items with the needed count
-        const newCount = item.neededCount > 50 ? item.neededCount : Math.min(item.neededCount, itemCount + 1);
+        const newCount = item.neededCount >= 10 ? item.neededCount : Math.min(item.neededCount, itemCount + 1);
         setItemCount(newCount);
         handleUpdateLocalStorageData(index, newCount);
     }
     const handleSubtractBtnClick = () => {
-        const newCount = item.neededCount > 50 ? 0 : Math.max(0, itemCount - 1);
+        const newCount = item.neededCount >= 10 ? 0 : Math.max(0, itemCount - 1);
         setItemCount(newCount);
         handleUpdateLocalStorageData(index, newCount);
     }
@@ -36,16 +37,16 @@ export const Item: React.FC<ItemProps> = (props) => {
 
     return (
         <div className={classNames(
-            "flex flex-column b--black ba bw1 br1 pa2",
+            "flex flex-column b--black ba bw1 br1 pa2 ma2",
             { "b--dark-green bg-dark-green": itemCount === item.neededCount }
         )}>
             <div className="flex flex-column center justify-center">
                 <img style={{ height: "90px", width: "90px" }} src={itemImage} alt={item.name} />
                 <div className="b">{item.shortName}</div>
                 <div className="f5 b">{itemCount}/{item.neededCount} {item.requiredFIR ? <span className="red">*FIR</span> : null}</div>
-                <div className="flex flex-row justify-center ma1">
-                    <button className="mr2 white w2 h2 hover-yellow" onClick={handleAddBtnClick}>+1</button>
-                    <button className="white w2 h2 hover-yellow" onClick={handleSubtractBtnClick}>-1</button>
+                <div className="flex flex-row justify-center">
+                    <button className="mr2 btn-plus-minus" onClick={handleAddBtnClick}>+</button>
+                    <button className="btn-plus-minus" onClick={handleSubtractBtnClick}>-</button>
                 </div>
                 <div className="flex justify-center">
                     <a href={item.wikiLinkTask} className="white underline mr2 hover-yellow">Task</a>

@@ -98,7 +98,7 @@ export const createItemTrackerData = (kappaTasks: Task[]) => {
                 const taskName = task.name;
                 // need some hardcoded task checks for tasks that have extra item/objective data that is not needed
                 if (taskName === "First in Line") {
-                    const customItem: Item = { name: "any medical items", shortName: "Meds", iconLink: AnyMedItemImg, wikiLink: task.wikiLink, category: { normalizedName: "" } };
+                    const customItem: Item = { name: "any medical items", shortName: "Meds", iconLink: '../assets/any-medical-item.webp', wikiLink: task.wikiLink, category: { normalizedName: "" } };
                     pushItem(objective, customItem, task.wikiLink, taskName);
                 } else if (taskName === "Friend From the West - Part 1" || taskName === "The Punisher - Part 6") {
                     const customItem3: Item = { ...objective.items[0] };

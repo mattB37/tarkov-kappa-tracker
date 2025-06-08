@@ -4,6 +4,7 @@ import { HideoutItem } from './hideout-item';
 import useResponsiveView from "../../hooks/useResponsiveView";
 import classNames from "classnames";
 import type { CustomHideoutStationRequirements } from "../../scripts/types";
+import "../../index.css"
 
 interface ItemTrackerProps {
     hideoutData: CustomHideoutStationRequirements[];
@@ -32,7 +33,7 @@ export const HideoutTracker: React.FC<ItemTrackerProps> = ({ hideoutData }) => {
 
     const handleResetItemTracking = () => {
         localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(initialItemCounts));
-        window.location.href = window.location.href
+        window.location.reload();
     }
 
     useEffect(() => {
@@ -102,7 +103,7 @@ export const HideoutTracker: React.FC<ItemTrackerProps> = ({ hideoutData }) => {
                 <div>Item counts are automatically saved to browser local storage</div>
             </div>
             <div className="ml2 mr2 mb2 justify-center">
-                <button onClick={handleResetItemTracking}>Reset Tracking</button>
+                <button className="base-btn" onClick={handleResetItemTracking}>Reset Tracking</button>
             </div>
             <div className="tc mb2 b">
                 Click The Icons to Jump to a Specific Hideout Station
