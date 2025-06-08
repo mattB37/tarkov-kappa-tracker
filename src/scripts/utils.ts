@@ -1,7 +1,6 @@
 import type { Task, SimpleTask, SimpleItem, Objective, Item, HideoutData, CustomHideoutStationRequirements, HideoutStation, HideoutRequiredItem } from './types'
 import { writeFile } from 'node:fs';
 import { Buffer } from 'node:buffer';
-import AnyMedItemImg from "../../assets/any-medical-item.webp";
 
 const excludedItems: Set<string> = new Set(['RUB', 'EUR', 'USD']);
 

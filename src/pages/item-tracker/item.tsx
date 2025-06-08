@@ -2,6 +2,7 @@ import { useState } from "react";
 import type { SimpleItem } from "../../scripts/types";
 import classNames from "classnames";
 import React from "react";
+import AnyMedItemImg from "../../assets/any-medical-item.webp";
 
 interface ItemProps {
     item: SimpleItem
@@ -31,13 +32,15 @@ export const Item: React.FC<ItemProps> = (props) => {
         handleUpdateLocalStorageData(index, newCount);
     }
 
+    const itemImage = item.shortName === 'Meds' ? AnyMedItemImg : item.iconLink;
+
     return (
         <div className={classNames(
             "flex flex-column b--black ba bw1 br1 pa2",
             { "b--dark-green bg-dark-green": itemCount === item.neededCount }
         )}>
             <div className="flex flex-column center justify-center">
-                <img style={{ height: "90px", width: "90px" }} src={item.iconLink} alt={item.name} />
+                <img style={{ height: "90px", width: "90px" }} src={itemImage} alt={item.name} />
                 <div className="b">{item.shortName}</div>
                 <div className="f5 b">{itemCount}/{item.neededCount} {item.requiredFIR ? <span className="red">*FIR</span> : null}</div>
                 <div className="flex flex-row justify-center ma1">
