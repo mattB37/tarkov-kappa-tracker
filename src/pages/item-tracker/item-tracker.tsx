@@ -24,6 +24,11 @@ export const ItemTracker: React.FC<ItemTrackerProps> = (props) => {
         }
     }, []);
 
+    const handleResetItemTracking = () => {
+        localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(new Array(itemData.length).fill(0)));
+        window.location.reload();
+    }
+
     const handleUpdateLocalStorageData = (index: number, newCount: number) => {
         try {
             const localStorageData = localStorage.getItem(LOCAL_STORAGE_KEY);
@@ -39,15 +44,16 @@ export const ItemTracker: React.FC<ItemTrackerProps> = (props) => {
 
     return (
         <div>
-            <div className="tc">
-                <button onClick={() => { setShouldHideCompletedItems(!shouldHideCompletedItems) }}>{shouldHideCompletedItems ? 'show completed' : 'hide completed'} items</button>
+            <div className="justify-center flex flex-row">
+                <button className='base-btn mr2' onClick={handleResetItemTracking}>Reset Tracking</button>
+                <button className="base-btn" onClick={() => { setShouldHideCompletedItems(!shouldHideCompletedItems) }}>{shouldHideCompletedItems ? 'Show Completed' : 'Hide Completed'}</button>
             </div>
             <ul className={classNames(
                 "list pa0 ma0 flex flex-wrap justify-center mr1 ml1"
             )}>
                 {itemData.map((item, index) => {
                     return (
-                        <li key={item.id} className="ma2">
+                        <li key={item.id}>
                             <Item item={item} index={index} startingCount={startingCounts ? startingCounts[index] : 0} handleUpdateLocalStorageData={handleUpdateLocalStorageData} shouldHideCompletedItems={shouldHideCompletedItems} />
                         </li>
                     );

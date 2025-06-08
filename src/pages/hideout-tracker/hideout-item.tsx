@@ -40,14 +40,14 @@ export const HideoutItem: React.FC<HideoutItemProps> = (props) => {
             <div className="flex flex-column center justify-center">
                 <div className={`f5 ${lvlColor}`}>*lvl {item.requiredForStationLevel}</div>
                 <img style={{ height: "75px", width: "75px" }} src={item.iconLink} alt={item.name} />
-                <a className="b f6" href={item.wikiLink}>{item.shortName}</a>
+                <a className={`b f6 underline ${isComplete && "dark-green"}`} href={item.wikiLink}>{item.shortName}</a>
                 <div className={classNames(
                     "f6 b",
                     { "dark-green": isComplete }
                 )}>{currentCount}/{neededCount}</div>
                 <div className="flex flex-row justify-center ma1">
-                    <button className="mr2 white w2 h2 hover-yellow" onClick={handleAddBtnClick}>+1</button>
-                    <button className="white w2 h2 hover-yellow" onClick={handleSubtractBtnClick}>-1</button>
+                    <button className="mr2 btn-plus-minus" onClick={handleAddBtnClick}>+</button>
+                    <button className="btn-plus-minus" onClick={handleSubtractBtnClick}>-</button>
                 </div>
             </div>
         </div >
