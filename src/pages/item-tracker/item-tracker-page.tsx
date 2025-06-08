@@ -3,7 +3,6 @@ import '../../index.css';
 import { ItemTracker } from './item-tracker';
 import data from '../../data/filtered_item_data.json';
 import type { SimpleItem } from '../../scripts/types';
-import { LOCAL_STORAGE_KEY } from './constants';
 
 export const ItemTrackerPage: React.FC = () => {
     const items = data as SimpleItem[];
