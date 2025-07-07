@@ -28,7 +28,7 @@ export const HideoutItem: React.FC<HideoutItemProps> = (props) => {
 
     const isComplete = currentCount === neededCount;
 
-    const colorMap = ['red', 'orange', 'yellow', 'green', 'blue', 'light-purple',]
+    const colorMap = ['yellow', 'orange', 'red', 'green', 'blue', 'purple',]
     const levelInRange = item.requiredForStationLevel <= colorMap.length;
     const lvlColor = levelInRange && !isComplete ? colorMap[item.requiredForStationLevel - 1] : isComplete ? 'green' : 'white'
 
@@ -38,7 +38,9 @@ export const HideoutItem: React.FC<HideoutItemProps> = (props) => {
             { "b--dark-green": isComplete }
         )}>
             <div className="flex flex-column center justify-center">
-                <div className={`f5 ${lvlColor}`}>*lvl {item.requiredForStationLevel}</div>
+                <div className="pa1 br2 mb2" style={{ backgroundColor: lvlColor }}>
+                    <span className="f5 black tc dib w-100">lvl {item.requiredForStationLevel}</span>
+                </div>
                 <img style={{ height: "75px", width: "75px" }} src={item.iconLink} alt={item.name} />
                 <a className={`b f6 underline ${isComplete && "dark-green"}`} href={item.wikiLink}>{item.shortName}</a>
                 <div className={classNames(
