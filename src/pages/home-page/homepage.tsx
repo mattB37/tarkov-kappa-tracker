@@ -7,7 +7,7 @@ export const HomePage: React.FC = () => {
             <h1 className="tc mb0">Welcome to Tarkov Tracker</h1>
             <div className='ml5 mr5 tc f3'>
                 <p>
-                    The data was last updated on 06/07/2025.
+                    The data was last updated on 07/06/2025.
                 </p>
                 <p>
                     This project was possible because of the hard work by people from <a href="https://tarkov.dev">Tarkov.dev</a> and <a href="https://escapefromtarkov.fandom.com/wiki/Escape_from_Tarkov_Wiki">The EFT Wiki</a>. All of the data came from the Tarkov.dev GraphQL API which is freely available <a href="https://tarkov.dev/api/">here</a>. Feel free to <a href="https://opencollective.com/tarkov-dev">Donate</a> to keep the Tarkov.dev site running.

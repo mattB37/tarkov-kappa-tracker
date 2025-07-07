@@ -1,6 +1,6 @@
 # Tarkov Kappa Tracker
 
-The data was last updated on 06/07/2025.
+The data was last updated on 07/06/2025.
 
 This project was possible because of the hard work by people from Tarkov.dev and The EFT Wiki. All of the data came from the Tarkov.dev GraphQL API which is freely available at https://tarkov.dev/api/. Feel free to Donate to them to keep the Tarkov.dev site running.
 
