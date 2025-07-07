@@ -76,7 +76,7 @@ export const HideoutTracker: React.FC<ItemTrackerProps> = ({ hideoutData }) => {
                     <div className="flex flex-wrap items-center">
                         <img style={{ height: "50px", width: "50px" }} src={station.imageLink} alt={`image of ${station.name}`}></img>
                         <div ref={el => { if (el) { stationRefs.current[rowIndex + indexOffset] = el } }} className="f4">{station.name}</div>
-                        <div><button className="bg-transparent bn underline f5" onClick={handleBackToTop}>Back to Top</button></div>
+                        <div><button className="bg-transparent bn underline f5 white" onClick={handleBackToTop}>Back to Top</button></div>
                     </div>
                     <div className="list pa0 ma0 flex flex-wrap">
                         {station.itemReqs.map((req, colIndex) => (
@@ -99,7 +99,8 @@ export const HideoutTracker: React.FC<ItemTrackerProps> = ({ hideoutData }) => {
     return (
         <>
             <div className='flex flex-column mb2 f5 tc'>
-                <div>All hideout items need to be found in raid as of patch 0.16 on 12/25/2024</div>
+                <div>For the upcoming hardcore wipe hideout items will not need to be found in raid (TBD)</div>
+                <div className="strike">All hideout items need to be found in raid as of patch 0.16 on 12/25/2024</div>
                 <div>Item counts are automatically saved to browser local storage</div>
             </div>
             <div className="ml2 mr2 mb2 justify-center">
